@@ -1,0 +1,9 @@
+#[link(name = "egl",
+       vers = "0.1")];
+#[crate_type = "lib"];
+
+extern mod std;
+extern mod core;
+
+pub mod egl;
+pub mod linkhack;
