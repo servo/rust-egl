@@ -2,8 +2,8 @@
 
 use core::libc::*;
 use core::str::raw;
-use ptr::to_unsafe_ptr;
-use cast::{reinterpret_cast, transmute};
+use core::ptr::to_unsafe_ptr;
+use core::cast::{reinterpret_cast, transmute};
 
 pub type khronos_int32_t = int32_t;
 pub type khronos_uint32_t = uint32_t;
