@@ -3,4 +3,4 @@
 #[cfg(target_os = "android")]
 #[link_args = "-L. -lEGL"]
 #[nolink]
-extern mod m { }
+extern { }
