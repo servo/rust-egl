@@ -38,6 +38,58 @@ pub type EGLDisplay = *c_void;
 pub type EGLSurface = *c_void;
 pub type EGLClientBuffer = *c_void;
 pub type __eglMustCastToProperFunctionPointerType = *u8;
+pub type status_t = int32_t;
+
+pub static EGL_CONTEXT_CLIENT_VERSION: c_uint = 0x3098;
+pub static EGL_NO_CONTEXT: c_uint = 0;
+pub static EGL_DEFAULT_DISPLAY: c_uint = 0;
+pub static EGL_NONE: c_uint = 0x3038;  // Attrib list terminator
+pub static EGL_NO_DISPLAY: c_uint = 0;
+pub static EGL_TRUE: c_uint = 1;
+pub static EGL_FALSE: c_uint = 0;
+pub static EGL_NO_SURFACE: c_uint = 0;
+pub static EGL_SURFACE_TYPE: c_uint = 0x3033;
+pub static EGL_WINDOW_BIT: c_uint = 0x0004;     // EGL_SURFACE_TYPE mask bits
+pub static EGL_RENDERABLE_TYPE: c_uint = 0x3040;
+pub static EGL_OPENGL_ES2_BIT: c_uint = 0x0004; // EGL_RENDERABLE_TYPE mask bits
+pub static EGL_HEIGHT: c_uint = 0x3056;
+pub static EGL_WIDTH: c_uint = 0x3057;
+
+pub static EGL_BUFFER_SIZE: c_uint = 0x3020;
+pub static EGL_DEPTH_SIZE: c_uint = 0x3025;
+
+
+pub fn CreateDisplaySurface() -> EGLNativeWindowType {
+    unsafe {
+        return android_createDisplaySurface();
+    }
+}
+
+#[cfg(target_os = "android")]
+#[link_args = "-lui"]
+#[no_link]
+extern {
+    pub fn android_createDisplaySurface() -> EGLNativeWindowType;
+}
+
+/*
+// FIXME 
+pub fn SelectConfigForNativeWindow(dpy: EGLDisplay, attrs: &mut EGLint, window: EGLNativeWindowType,
+                                    outConfig: &mut EGLConfig) -> status_t {
+    unsafe {
+        return selectConfigForNativeWindow(dpy, to_unsafe_ptr(attrs), window, to_unsafe_ptr(outConfig));
+    }
+}
+
+#[cfg(target_os = "android")]
+#[link_args = "-lui"]
+#[no_link]
+extern {
+    pub fn selectConfigForNativeWindow(dpy: EGLDisplay, attrs: *EGLint,
+                                           window: EGLNativeWindowType,
+                                           outConfig: *EGLConfig) -> status_t;
+}
+*/
 
 #[nolink]
 #[link_args = "-lEGL"]
@@ -80,9 +132,9 @@ pub fn GetConfigs(dpy: EGLDisplay, configs: &mut EGLConfig, config_size: EGLint,
     }
 }
 
-pub fn ChooseConfig(dpy: EGLDisplay, attrib_list: &mut EGLint, configs: &mut EGLConfig, config_size: EGLint, num_config: &mut EGLint) -> EGLBoolean {
+pub fn ChooseConfig(dpy: EGLDisplay, attrib_list: *EGLint, configs: &mut EGLConfig, config_size: EGLint, num_config: &mut EGLint) -> EGLBoolean {
     unsafe {
-        return eglChooseConfig(dpy, to_unsafe_ptr(attrib_list), to_unsafe_ptr(configs), config_size, to_unsafe_ptr(num_config));
+        return eglChooseConfig(dpy, attrib_list, to_unsafe_ptr(configs), config_size, to_unsafe_ptr(num_config));
     }
 }
 
@@ -92,9 +144,9 @@ pub fn GetConfigAttrib(dpy: EGLDisplay, config: EGLConfig, attribute: EGLint, va
     }
 }
 
-pub fn CreateWindowSurface(dpy: EGLDisplay, config: EGLConfig, win: EGLNativeWindowType, attrib_list: &mut EGLint) -> EGLSurface {
+pub fn CreateWindowSurface(dpy: EGLDisplay, config: EGLConfig, win: EGLNativeWindowType, attrib_list: *EGLint) -> EGLSurface {
     unsafe {
-        return eglCreateWindowSurface(dpy, config, win, to_unsafe_ptr(attrib_list));
+        return eglCreateWindowSurface(dpy, config, win, attrib_list);
     }
 }
 
@@ -176,9 +228,9 @@ pub fn SwapInterval(dpy: EGLDisplay, interval: EGLint) -> EGLBoolean {
     }
 }
 
-pub fn CreateContext(dpy: EGLDisplay, config: EGLConfig, share_context: EGLContext, attrib_list: &mut EGLint) -> EGLContext {
+pub fn CreateContext(dpy: EGLDisplay, config: EGLConfig, share_context: EGLContext, attrib_list: *EGLint) -> EGLContext {
     unsafe {
-        return eglCreateContext(dpy, config, share_context, to_unsafe_ptr(attrib_list));
+        return eglCreateContext(dpy, config, share_context, attrib_list);
     }
 }
 
