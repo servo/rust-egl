@@ -17,7 +17,7 @@
 #ifndef ANDROID_NATIVE_WINDOW_H
 #define ANDROID_NATIVE_WINDOW_H
 
-#include <android/rect.h>
+#include "rect.h"
 
 #ifdef __cplusplus
 extern "C" {
