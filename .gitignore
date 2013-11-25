@@ -1,0 +1,4 @@
+*.so
+*.sh
+Makefile
+config.mk
