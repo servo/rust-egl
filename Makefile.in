@@ -1,24 +1,31 @@
 include config.mk
 
 VPATH=%VPATH%
-PATH=$(CFG_PATH)
+CC ?= gcc
+CXX ?= g++
+CXXFLAGS ?=
+AR ?= ar
+RUSTC ?= rustc
+RUSTFLAGS ?=
 
-RUSTFLAGS += --target $(CFG_HOST_TRIPLE)
 
+ifeq ($(CFG_OSTYPE),linux-androideabi)
+RUSTFLAGS += -L.
+endif
 RUST_SRC=$(shell find $(VPATH)/. -type f -name '*.rs')
 
 .PHONY: all
 all:	librustegl.dummy
 
 %.o:	%.c
-	$(CFG_GCC) $< -o $@ -c $(CFLAGS)
+	$(CC) $< -o $@ -c $(CFLAGS)
 
 librustegl.dummy: egl.rc $(RUST_SRC)
-	$(CFG_RUSTC) $(RUSTFLAGS) $< -o $@
+	$(RUSTC) $(RUSTFLAGS) $< --out-dir .	
 	touch $@
 
 rustegl-test: egl.rc $(RUST_SRC)
-	$(CFG_RUSTC) $(RUSTFLAGS) $< -o $@ --test
+	$(RUSTC) $(RUSTFLAGS) $< -o $@ --test
 
 check: rustegl-test
 	./rustegl-test
