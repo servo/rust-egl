@@ -62,44 +62,6 @@ pub static EGL_BLUE_SIZE: c_uint = 0x3022;
 pub static EGL_GREEN_SIZE: c_uint = 0x3023;
 pub static EGL_RED_SIZE:c_uint = 0x3024;
 
-pub static EGL_BLUE_SIZE: c_uint = 0x3022;
-pub static EGL_RED_SIZE: c_uint = 0x3024;
-pub static EGL_GREEN_SIZE: c_uint = 0x3023;
-
-#[fixed_stack_segment]
-pub fn CreateDisplaySurface() -> EGLNativeWindowType {
-    unsafe {
-        return android_createDisplaySurface();
-    }
-}
-
-#[cfg(target_os = "android")]
-#[link_args = "-lui"]
-#[no_link]
-#[fixed_stack_segment]
-extern {
-    pub fn android_createDisplaySurface() -> EGLNativeWindowType;
-}
-
-/*
-// FIXME 
-pub fn SelectConfigForNativeWindow(dpy: EGLDisplay, attrs: &mut EGLint, window: EGLNativeWindowType,
-                                    outConfig: &mut EGLConfig) -> status_t {
-    unsafe {
-        return selectConfigForNativeWindow(dpy, to_unsafe_ptr(attrs), window, to_unsafe_ptr(outConfig));
-    }
-}
-
-#[cfg(target_os = "android")]
-#[link_args = "-lui"]
-#[no_link]
-extern {
-    pub fn selectConfigForNativeWindow(dpy: EGLDisplay, attrs: *EGLint,
-                                           window: EGLNativeWindowType,
-                                           outConfig: *EGLConfig) -> status_t;
-}
-*/
-
 #[nolink]
 #[link_args = "-lEGL"]
 #[cfg(target_os = "android")]

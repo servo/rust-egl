@@ -18,14 +18,14 @@ RUST_SRC=$(shell find $(VPATH)/. -type f -name '*.rs')
 all:	librustegl.dummy
 
 %.o:	%.c
-    $(CC) $< -o $@ -c $(CFLAGS)
+	$(CC) $< -o $@ -c $(CFLAGS)
 
-librustegl.dummy: egl.rc $(RUST_SRC) libandroid-egl.a
-    $(RUSTC) $(RUSTFLAGS) $< --out-dir .	
-    touch $@
+librustegl.dummy: egl.rc $(RUST_SRC)
+	$(RUSTC) $(RUSTFLAGS) $< --out-dir .	
+	touch $@
 
-rustegl-test: egl.rc $(RUST_SRC) libandroid-egl.a
-    $(RUSTC) $(RUSTFLAGS) $< -o $@ --test
+rustegl-test: egl.rc $(RUST_SRC)
+	$(RUSTC) $(RUSTFLAGS) $< -o $@ --test
 
 check: rustegl-test
 	./rustegl-test
