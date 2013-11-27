@@ -60,7 +60,9 @@ pub static EGL_DEPTH_SIZE: c_uint = 0x3025;
 pub static EGL_ALPHA_SIZE: c_uint = 0x3021;
 pub static EGL_BLUE_SIZE: c_uint = 0x3022;
 pub static EGL_GREEN_SIZE: c_uint = 0x3023;
-pub static EGL_RED_SIZE:c_uint = 0x3024;
+pub static EGL_RED_SIZE: c_uint = 0x3024;
+
+pub static EGL_DRAW: EGLint = 0x3059;
 
 #[nolink]
 #[link_args = "-lEGL"]
