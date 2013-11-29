@@ -61,6 +61,8 @@ pub static EGL_ALPHA_SIZE: c_uint = 0x3021;
 pub static EGL_BLUE_SIZE: c_uint = 0x3022;
 pub static EGL_GREEN_SIZE: c_uint = 0x3023;
 pub static EGL_RED_SIZE: c_uint = 0x3024;
+pub static EGL_BACK_BUFFER: c_int = 0x3084;
+pub static EGL_SINGLE_BUFFER: c_int = 0x3085;
 
 pub static EGL_DRAW: EGLint = 0x3059;
 
