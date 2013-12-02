@@ -7,4 +7,5 @@
 extern mod std;
 
 pub mod egl;
+pub mod eglext;
 pub mod linkhack;

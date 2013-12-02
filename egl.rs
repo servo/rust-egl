@@ -64,6 +64,12 @@ pub static EGL_RED_SIZE: c_uint = 0x3024;
 
 pub static EGL_DRAW: EGLint = 0x3059;
 
+pub static EGL_CONTEXT_MAJOR_VERSION_KHR: c_uint = 0x3098;
+pub static EGL_CONTEXT_MINOR_VERSION_KHR: c_uint = 0x30FB;
+pub static EGL_CONTEXT_FLAGS_KHR: c_uint = 0x30FC;
+pub static EGL_OPENGL_ES3_BIT_KHR: c_uint = 0x0040;
+pub static EGL_EXTENSIONS: c_uint = 0x3055;
+
 #[nolink]
 #[link_args = "-lEGL"]
 #[cfg(target_os = "android")]
