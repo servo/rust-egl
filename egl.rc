@@ -1,5 +1,4 @@
-#[link(name = "egl",
-       vers = "0.1")];
+#[crate_id = "egl#0.1"];
 #[crate_type = "lib"];
 
 #[feature(globs)];
@@ -7,4 +6,4 @@
 extern mod std;
 
 pub mod egl;
-pub mod linkhack;
+pub mod eglext;
