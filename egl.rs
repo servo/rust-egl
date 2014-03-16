@@ -2,7 +2,7 @@
 
 use std::libc::*;
 use std::str::raw;
-use std::ptr::to_unsafe_ptr;
+use std::cast;
 
 pub type khronos_int32_t = int32_t;
 pub type khronos_uint32_t = uint32_t;
@@ -72,6 +72,9 @@ pub static EGL_EXTENSIONS: c_uint = 0x3055;
 #[link(name = "EGL")]
 extern {}
 
+fn as_i32<T>(t: &T) -> *i32 { t as *T as *i32 }
+fn as_cvoid<T>(t: &T) -> **c_void { t as *T as **c_void }
+
 pub fn GetError() -> EGLint {
     unsafe {
         return eglGetError();
@@ -84,7 +87,7 @@ pub fn GetDisplay(display_id: EGLNativeDisplayType) -> EGLDisplay {
 }
 pub fn Initialize(dpy: EGLDisplay, major: &mut EGLint, minor: &mut EGLint) -> EGLBoolean {
     unsafe {
-        return eglInitialize(dpy, to_unsafe_ptr(major), to_unsafe_ptr(minor));
+        return eglInitialize(dpy, as_i32(major), as_i32(minor));
     }
 }
 pub fn Terminate(dpy: EGLDisplay) -> EGLBoolean {
@@ -99,17 +102,17 @@ pub fn QueryString(dpy: EGLDisplay, name: EGLint) -> ~str {
 }
 pub fn GetConfigs(dpy: EGLDisplay, configs: &mut EGLConfig, config_size: EGLint, num_config: &mut EGLint) -> EGLBoolean {
     unsafe {
-        return eglGetConfigs(dpy, to_unsafe_ptr(configs), config_size, to_unsafe_ptr(num_config));
+        return eglGetConfigs(dpy, as_cvoid(configs), config_size, as_i32(num_config));
     }
 }
 pub fn ChooseConfig(dpy: EGLDisplay, attrib_list: *EGLint, configs: &mut EGLConfig, config_size: EGLint, num_config: &mut EGLint) -> EGLBoolean {
     unsafe {
-        return eglChooseConfig(dpy, attrib_list, to_unsafe_ptr(configs), config_size, to_unsafe_ptr(num_config));
+        return eglChooseConfig(dpy, attrib_list, as_cvoid(configs), config_size, as_i32(num_config));
     }
 }
 pub fn GetConfigAttrib(dpy: EGLDisplay, config: EGLConfig, attribute: EGLint, value: &mut EGLint) -> EGLBoolean {
     unsafe {
-        return eglGetConfigAttrib(dpy, config, attribute, to_unsafe_ptr(value));
+        return eglGetConfigAttrib(dpy, config, attribute, as_i32(value));
     }
 }
 pub fn CreateWindowSurface(dpy: EGLDisplay, config: EGLConfig, win: EGLNativeWindowType, attrib_list: *EGLint) -> EGLSurface {
@@ -119,12 +122,12 @@ pub fn CreateWindowSurface(dpy: EGLDisplay, config: EGLConfig, win: EGLNativeWin
 }
 pub fn CreatePbufferSurface(dpy: EGLDisplay, config: EGLConfig, attrib_list: &mut EGLint) -> EGLSurface {
     unsafe {
-        return eglCreatePbufferSurface(dpy, config, to_unsafe_ptr(attrib_list));
+        return eglCreatePbufferSurface(dpy, config, as_i32(attrib_list));
     }
 }
 pub fn CreatePixmapSurface(dpy: EGLDisplay, config: EGLConfig, pixmap: EGLNativePixmapType, attrib_list: &mut EGLint) -> EGLSurface {
     unsafe {
-        return eglCreatePixmapSurface(dpy, config, pixmap, to_unsafe_ptr(attrib_list));
+        return eglCreatePixmapSurface(dpy, config, pixmap, as_i32(attrib_list));
     }
 }
 pub fn DestroySurface(dpy: EGLDisplay, surface: EGLSurface) -> EGLBoolean {
@@ -134,7 +137,7 @@ pub fn DestroySurface(dpy: EGLDisplay, surface: EGLSurface) -> EGLBoolean {
 }
 pub fn QuerySurface(dpy: EGLDisplay, surface: EGLSurface, attribute: EGLint, value: &mut EGLint) -> EGLBoolean {
     unsafe {
-        return eglQuerySurface(dpy, surface, attribute, to_unsafe_ptr(value));
+        return eglQuerySurface(dpy, surface, attribute, as_i32(value));
     }
 }
 pub fn BindAPI(api: EGLenum) -> EGLBoolean {
@@ -159,7 +162,7 @@ pub fn ReleaseThread() -> EGLBoolean {
 }
 pub fn CreatePbufferFromClientBuffer(dpy: EGLDisplay, buftype: EGLenum, buffer: EGLClientBuffer, config: EGLConfig, attrib_list: &mut EGLint) -> EGLSurface {
     unsafe {
-        return eglCreatePbufferFromClientBuffer(dpy, buftype, buffer, config, to_unsafe_ptr(attrib_list));
+        return eglCreatePbufferFromClientBuffer(dpy, buftype, buffer, config, as_i32(attrib_list));
     }
 }
 pub fn SurfaceAttrib(dpy: EGLDisplay, surface: EGLSurface, attribute: EGLint, value: EGLint) -> EGLBoolean {
@@ -214,7 +217,7 @@ pub fn GetCurrentDisplay() -> EGLDisplay {
 }
 pub fn QueryContext(dpy: EGLDisplay, ctx: EGLContext, attribute: EGLint, value: &mut EGLint) -> EGLBoolean {
     unsafe {
-        return eglQueryContext(dpy, ctx, attribute, to_unsafe_ptr(value));
+        return eglQueryContext(dpy, ctx, attribute, as_i32(value));
     }
 }
 pub fn WaitGL() -> EGLBoolean {

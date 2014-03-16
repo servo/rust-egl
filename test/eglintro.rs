@@ -1,9 +1,9 @@
 #[feature(globs)];
 
-extern mod std;
+extern crate std;
 
-extern mod egl;
-extern mod opengles;
+extern crate egl;
+extern crate opengles;
 
 use egl::egl::{EGLConfig, EGLint, EGLBoolean};
 use egl::egl::{EGL_NO_DISPLAY, EGL_DEFAULT_DISPLAY, EGL_NO_CONTEXT, EGL_CONTEXT_CLIENT_VERSION};
