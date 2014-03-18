@@ -3,11 +3,11 @@
 
 #[feature(globs)];
 
-extern mod std;
+extern crate std;
 
-extern mod egl;
-extern mod opengles;
-extern mod glut;
+extern crate egl;
+extern crate opengles;
+extern crate glut;
 
 use egl::egl::{SwapBuffers, GetCurrentSurface, GetCurrentDisplay};
 use egl::egl;

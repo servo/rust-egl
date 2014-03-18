@@ -3,7 +3,7 @@
 
 #[feature(globs)];
 
-extern mod std;
+extern crate std;
 
 pub mod egl;
 pub mod eglext;
