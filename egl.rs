@@ -2,7 +2,6 @@
 
 use std::libc::*;
 use std::str::raw;
-use std::cast;
 
 pub type khronos_int32_t = int32_t;
 pub type khronos_uint32_t = uint32_t;
