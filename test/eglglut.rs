@@ -1,7 +1,7 @@
-#[link(name = "eglglut", vers = "0.1")];
-#[crate_type = "lib"];
+#![link(name = "eglglut", vers = "0.1")]
+#![crate_type = "lib"]
 
-#[feature(globs)];
+#![feature(globs)]
 
 extern crate std;
 
