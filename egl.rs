@@ -4,8 +4,6 @@
 
 use libc::*;
 
-// Remove this when https://github.com/mozilla/rust/pull/14081 is included in Servo's rust
-use libc::types::os::arch::c95::c_schar;
 use std::str::raw;
 
 pub type khronos_int32_t = int32_t;
@@ -99,7 +97,7 @@ pub fn Terminate(dpy: EGLDisplay) -> EGLBoolean {
         return eglTerminate(dpy);
     }
 }
-pub fn QueryString(dpy: EGLDisplay, name: EGLint) -> ~str {
+pub fn QueryString(dpy: EGLDisplay, name: EGLint) -> String {
     unsafe {
         return raw::from_c_str(eglQueryString(dpy, name));
     }
