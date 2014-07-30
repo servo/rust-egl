@@ -4,7 +4,7 @@ use libc::*;
 use egl::*;
 
 // defines
-pub type EGLImageKHR = *c_void;
+pub type EGLImageKHR = *mut c_void;
 
 
 pub static EGL_NATIVE_BUFFER_ANDROID: c_uint = 0x3140;  /* eglCreateImageKHR target */
@@ -40,7 +40,7 @@ pub static EGL_BITMAP_PIXEL_LUMINANCE_OFFSET_KHR: c_uint = 0x30CD;  /* eglQueryS
 extern {}
 
 pub fn CreateImageKHR(dpy: EGLDisplay, context: EGLContext, target: EGLenum,
-                      buffer: EGLClientBuffer, attrib_list: *EGLint) -> EGLImageKHR {
+                      buffer: EGLClientBuffer, attrib_list: *const EGLint) -> EGLImageKHR {
     unsafe {
         return eglCreateImageKHR(dpy, context, target, buffer, attrib_list);
     }
@@ -54,6 +54,6 @@ pub fn DestroyImageKHR(dpy: EGLDisplay, image: EGLImageKHR) -> EGLBoolean {
 
 extern {
     fn eglCreateImageKHR(dpy: EGLDisplay, context: EGLContext, target: EGLenum,
-                         buffer: EGLClientBuffer, attrib_list: *EGLint) -> EGLImageKHR; 
+                         buffer: EGLClientBuffer, attrib_list: *const EGLint) -> EGLImageKHR; 
     fn eglDestroyImageKHR(dpy: EGLDisplay, image: EGLImageKHR) -> EGLBoolean;
 }
