@@ -4,7 +4,7 @@
 
 use libc::*;
 
-use std::str::raw;
+use std::string;
 
 pub type khronos_int32_t = int32_t;
 pub type khronos_uint32_t = uint32_t;
@@ -99,7 +99,7 @@ pub fn Terminate(dpy: EGLDisplay) -> EGLBoolean {
 }
 pub fn QueryString(dpy: EGLDisplay, name: EGLint) -> String {
     unsafe {
-        return raw::from_c_str(&*eglQueryString(dpy, name));
+        return string::raw::from_buf(&*eglQueryString(dpy, name) as *const i8 as *const u8);
     }
 }
 pub fn GetConfigs(dpy: EGLDisplay, configs: &mut EGLConfig, config_size: EGLint, num_config: &mut EGLint) -> EGLBoolean {
