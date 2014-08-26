@@ -2,3 +2,6 @@
 *.sh
 Makefile
 config.mk
+/doc
+/target
+/Cargo.lock
