@@ -101,7 +101,7 @@ pub fn Terminate(dpy: EGLDisplay) -> EGLBoolean {
 }
 pub fn QueryString(dpy: EGLDisplay, name: EGLint) -> String {
     unsafe {
-        let query_string = eglQueryString(dpy, name) as *const i8;
+        let query_string = eglQueryString(dpy, name) as *const c_char;
         let c_str = ffi::c_str_to_bytes(&query_string);
         str::from_utf8(c_str).ok().unwrap().to_string()
     }
