@@ -102,8 +102,8 @@ pub fn Terminate(dpy: EGLDisplay) -> EGLBoolean {
 pub fn QueryString(dpy: EGLDisplay, name: EGLint) -> String {
     unsafe {
         let query_string = eglQueryString(dpy, name) as *const c_char;
-        let c_str = ffi::c_str_to_bytes(&query_string);
-        str::from_utf8(c_str).ok().unwrap().to_string()
+        let c_str = ffi::CStr::from_ptr(query_string);
+        str::from_utf8(c_str.to_bytes()).ok().unwrap().to_string()
     }
 }
 pub fn GetConfigs(dpy: EGLDisplay, configs: &mut EGLConfig, config_size: EGLint, num_config: &mut EGLint) -> EGLBoolean {
