@@ -1,8 +1,13 @@
 [package]
-
-name = "egl"
+name = "servo-egl"
 version = "0.1.0"
 authors = ["The Servo Project Developers"]
+repository = "https://github.com/servo/rust-egl"
+description = "Wrapper for EGL"
+license = "MIT / Apache-2.0"  # See https://github.com/rust-lang/cargo/issues/2174
+
+[lib]
+name = "egl"
 
 [dependencies]
-libc = "0.1.6"
+libc = "0.2"
