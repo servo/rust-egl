@@ -45,9 +45,9 @@ extern {}
 pub fn CreateImageKHR(dpy: EGLDisplay, context: EGLContext, target: EGLenum,
                       buffer: EGLClientBuffer, attrib_list: *const EGLint) -> EGLImageKHR {
     unsafe {
-        let name = ffi::CString::new("eglCreateImageKHR").unwrap().as_ptr();
+        let name = ffi::CString::new("eglCreateImageKHR").unwrap();
 
-        let addr = eglGetProcAddress(name as *const _);
+        let addr = eglGetProcAddress(name.as_ptr() as *const _);
 
         if addr == ptr::null() {
             panic!("Unable to find an entry point for eglCreateImageKHR");
@@ -61,9 +61,9 @@ pub fn CreateImageKHR(dpy: EGLDisplay, context: EGLContext, target: EGLenum,
 
 pub fn DestroyImageKHR(dpy: EGLDisplay, image: EGLImageKHR) -> EGLBoolean {
     unsafe {
-        let name = ffi::CString::new("eglDestroyImageKHR").unwrap().as_ptr();
+        let name = ffi::CString::new("eglDestroyImageKHR").unwrap();
 
-        let addr = eglGetProcAddress(name as *const _);
+        let addr = eglGetProcAddress(name.as_ptr() as *const _);
 
         if addr == ptr::null() {
             panic!("Unable to find an entry point for eglDestroyImageKHR");
