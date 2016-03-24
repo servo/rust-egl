@@ -2,6 +2,9 @@
 
 use libc::*;
 use egl::*;
+use std::ffi;
+use std::mem;
+use std::ptr;
 
 // defines
 pub type EGLImageKHR = *mut c_void;
@@ -42,18 +45,36 @@ extern {}
 pub fn CreateImageKHR(dpy: EGLDisplay, context: EGLContext, target: EGLenum,
                       buffer: EGLClientBuffer, attrib_list: *const EGLint) -> EGLImageKHR {
     unsafe {
+        let name = ffi::CString::new("eglCreateImageKHR").unwrap().as_ptr();
+
+        let addr = eglGetProcAddress(name as *const _);
+
+        if addr == ptr::null() {
+            panic!("Unable to find an entry point for eglCreateImageKHR");
+        }
+
+        let eglCreateImageKHR: extern "C" fn(dpy: EGLDisplay, context: EGLContext, target: EGLenum,
+                                             buffer: EGLClientBuffer, attrib_list: *const EGLint) -> EGLImageKHR = mem::transmute(addr);
         return eglCreateImageKHR(dpy, context, target, buffer, attrib_list);
     }
 }
 
 pub fn DestroyImageKHR(dpy: EGLDisplay, image: EGLImageKHR) -> EGLBoolean {
     unsafe {
+        let name = ffi::CString::new("eglDestroyImageKHR").unwrap().as_ptr();
+
+        let addr = eglGetProcAddress(name as *const _);
+
+        if addr == ptr::null() {
+            panic!("Unable to find an entry point for eglDestroyImageKHR");
+        }
+
+        let eglDestroyImageKHR: extern "C" fn(dpy: EGLDisplay, image: EGLImageKHR) -> EGLBoolean = mem::transmute(addr);
         return eglDestroyImageKHR(dpy, image);
     }
 }
 
 extern {
-    fn eglCreateImageKHR(dpy: EGLDisplay, context: EGLContext, target: EGLenum,
-                         buffer: EGLClientBuffer, attrib_list: *const EGLint) -> EGLImageKHR; 
-    fn eglDestroyImageKHR(dpy: EGLDisplay, image: EGLImageKHR) -> EGLBoolean;
+    pub fn eglGetProcAddress(procname: *const c_schar) ->
+     __eglMustCastToProperFunctionPointerType;
 }
