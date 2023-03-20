@@ -42,36 +42,32 @@ pub static EGL_BITMAP_PIXEL_LUMINANCE_OFFSET_KHR: c_uint = 0x30CD;  /* eglQueryS
 #[link(name = "EGL")]
 extern {}
 
-pub fn CreateImageKHR(dpy: EGLDisplay, context: EGLContext, target: EGLenum,
+pub unsafe fn CreateImageKHR(dpy: EGLDisplay, context: EGLContext, target: EGLenum,
                       buffer: EGLClientBuffer, attrib_list: *const EGLint) -> EGLImageKHR {
-    unsafe {
-        let name = ffi::CString::new("eglCreateImageKHR").unwrap();
+    let name = ffi::CString::new("eglCreateImageKHR").unwrap();
 
-        let addr = eglGetProcAddress(name.as_ptr() as *const _);
+    let addr = eglGetProcAddress(name.as_ptr() as *const _);
 
-        if addr == ptr::null() {
-            panic!("Unable to find an entry point for eglCreateImageKHR");
-        }
-
-        let eglCreateImageKHR: extern "C" fn(dpy: EGLDisplay, context: EGLContext, target: EGLenum,
-                                             buffer: EGLClientBuffer, attrib_list: *const EGLint) -> EGLImageKHR = mem::transmute(addr);
-        return eglCreateImageKHR(dpy, context, target, buffer, attrib_list);
+    if addr == ptr::null() {
+        panic!("Unable to find an entry point for eglCreateImageKHR");
     }
+
+    let eglCreateImageKHR: extern "C" fn(dpy: EGLDisplay, context: EGLContext, target: EGLenum,
+                                            buffer: EGLClientBuffer, attrib_list: *const EGLint) -> EGLImageKHR = mem::transmute(addr);
+    return eglCreateImageKHR(dpy, context, target, buffer, attrib_list);
 }
 
-pub fn DestroyImageKHR(dpy: EGLDisplay, image: EGLImageKHR) -> EGLBoolean {
-    unsafe {
-        let name = ffi::CString::new("eglDestroyImageKHR").unwrap();
+pub unsafe fn DestroyImageKHR(dpy: EGLDisplay, image: EGLImageKHR) -> EGLBoolean {
+    let name = ffi::CString::new("eglDestroyImageKHR").unwrap();
 
-        let addr = eglGetProcAddress(name.as_ptr() as *const _);
+    let addr = eglGetProcAddress(name.as_ptr() as *const _);
 
-        if addr == ptr::null() {
-            panic!("Unable to find an entry point for eglDestroyImageKHR");
-        }
-
-        let eglDestroyImageKHR: extern "C" fn(dpy: EGLDisplay, image: EGLImageKHR) -> EGLBoolean = mem::transmute(addr);
-        return eglDestroyImageKHR(dpy, image);
+    if addr == ptr::null() {
+        panic!("Unable to find an entry point for eglDestroyImageKHR");
     }
+
+    let eglDestroyImageKHR: extern "C" fn(dpy: EGLDisplay, image: EGLImageKHR) -> EGLBoolean = mem::transmute(addr);
+    return eglDestroyImageKHR(dpy, image);
 }
 
 extern {
